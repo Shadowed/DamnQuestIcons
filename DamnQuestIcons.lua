@@ -18,7 +18,7 @@ local function OnEvent()
 				
 				if( not isHeader ) then
 					-- Damn you people modifying quest name *glares at Cide*
-					if( questName == buttonText or string.find( questName, buttonText ) ) then
+					if( questName == buttonText or string.match( questName, buttonText ) ) then
 						if( isComplete or GetNumQuestLeaderBoards( i ) == 0 ) then
 							texture:SetDesaturated( false );
 						else
