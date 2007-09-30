@@ -15,7 +15,7 @@ local function updateGossipIcons()
 				
 				if( not isHeader ) then
 					-- Damn you people modifying quest name *glares at Cide*
-					if( questName == buttonText or string.match(questName, buttonText) ) then
+					if( questName == buttonText or string.match(questName, buttonText) or string.match(buttonText, questName) ) then
 						if( isComplete or GetNumQuestLeaderBoards(j) == 0 ) then
 							texture:SetDesaturated(false)
 						else
@@ -49,7 +49,7 @@ local function updateQuestIcons()
 
 			if( not isHeader ) then
 				-- Damn you people modifying quest name *glares at Cide*
-				if( questName == buttonText or string.match(questName, buttonText) ) then
+				if( questName == buttonText or string.match(questName, buttonText) or string.match(buttonText, questName) ) then
 					if( isComplete or GetNumQuestLeaderBoards(j) == 0 ) then
 						texture:SetDesaturated(false)
 					else
