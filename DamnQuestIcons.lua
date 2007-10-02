@@ -7,13 +7,13 @@ function checkQuestText(buttonText, texture)
 			if( questName == buttonText or string.match(questName, buttonText) or string.match(buttonText, questName) ) then
 				if( isComplete or GetNumQuestLeaderBoards(i) == 0 ) then
 					SetDesaturation(texture, nil)
+					return
 				end
-
 				break
 			end
 		end
 	end
-	
+		
 	SetDesaturation(texture, true)
 end
 
