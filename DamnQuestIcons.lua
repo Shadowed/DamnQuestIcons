@@ -1,4 +1,4 @@
-function isQuestComplete(buttonText)
+function checkQuestText(buttonText, texture)
 	for i=1, GetNumQuestLogEntries() do
 		local questName, _, _, _, _, isHeader, isComplete = GetQuestLogTitle(i)
 
@@ -6,13 +6,15 @@ function isQuestComplete(buttonText)
 			-- Damn you people modifying quest name *glares at Cide*
 			if( questName == buttonText or string.match(questName, buttonText) or string.match(buttonText, questName) ) then
 				if( isComplete or GetNumQuestLeaderBoards(i) == 0 ) then
-					return false
+					SetDesaturation(texture, nil)
 				end
+
+				break
 			end
 		end
 	end
 	
-	return true
+	SetDesaturation(texture, true)
 end
 
 local function updateGossipIcons()
@@ -24,9 +26,11 @@ local function updateGossipIcons()
 		local button = getglobal("GossipTitleButton" .. i)
 					
 		if( button:IsVisible() ) then
-			getglobal(button:GetName() .. "GossipIcon"):SetDesaturated(isQuestComplete(button:GetText()))
-		else
-			getglobal(button:GetName() .. "GossipIcon"):SetDesaturated(false)
+			if( button.type == "Active" ) then
+				checkQuestText(button:GetText(), getglobal(button:GetName() .. "GossipIcon"))
+			else
+				SetDesaturation(getglobal(button:GetName() .. "GossipIcon"), nil)
+			end
 		end
 	end
 end
@@ -35,24 +39,17 @@ local function updateQuestIcons()
 	if( not QuestFrameGreetingPanel:IsVisible() ) then
 		return
 	end
-		
-	-- Reset all buttons or we end up with issues later
-	for i=1, (GetNumAvailableQuests() + GetNumActiveQuests()) do
-		local button = getglobal("QuestTitleButton" .. i)
-		if( button ) then
-			local texture = button:GetRegions()
-			texture:SetDesaturated(false)
-		end
-	end
 	
-	-- Now set all the active ones
-	for i=1, GetNumActiveQuests() do
+	for i=1, (GetNumActiveQuests() + GetNumAvailableQuests()) do
 		local button = getglobal("QuestTitleButton" .. i)
 		
 		if( button:IsVisible() ) then
-			-- The texture is unnamed, so use GetRegions to grab it
-			local texture = button:GetRegions()
-			texture:SetDesaturated(isQuestComplete(button:GetText()))
+			if( button.isActive == 0 ) then
+				checkQuestText(button:GetText(), (button:GetRegions()))
+			else
+				SetDesaturation((button:GetRegions()), nil)
+			end
+			
 		end
 	end
 end
