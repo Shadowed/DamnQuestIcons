@@ -44,7 +44,7 @@ local function updateQuestIcons()
 		local button = getglobal("QuestTitleButton" .. i)
 		
 		if( button:IsVisible() ) then
-			if( button.isActive == 0 ) then
+			if( button.isActive == 1 ) then
 				checkQuestText(button:GetText(), (button:GetRegions()))
 			else
 				SetDesaturation((button:GetRegions()), nil)
