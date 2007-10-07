@@ -4,8 +4,8 @@ function checkQuestText(buttonText, texture)
 
 		if( not isHeader ) then
 			-- Damn you people modifying quest name *glares at Cide*
-			if( questName == buttonText or string.match(questName, buttonText) or string.match(buttonText, questName) ) then
-				if( isComplete or GetNumQuestLeaderBoards(i) == 0 ) then
+			if( string.match(questName, buttonText) or string.match(buttonText, questName) ) then
+				if( isComplete and isComplete > 0 ) then
 					SetDesaturation(texture, nil)
 					return
 				end
