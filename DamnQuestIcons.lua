@@ -1,16 +1,33 @@
 function checkQuestText(buttonText, texture)
+	local textHasBracket = string.match(buttonText, "%[")
+		
 	for i=1, GetNumQuestLogEntries() do
-		local questName, _, _, _, _, isHeader, isComplete = GetQuestLogTitle(i)
-
-		if( not isHeader ) then
-			-- Damn you people modifying quest name *glares at Cide*
-			if( string.match(questName, buttonText) or string.match(buttonText, questName) ) then
-				if( isComplete and isComplete > 0 ) then
-					SetDesaturation(texture, nil)
-					return
-				end
-				break
+		local questName, _, _, _, _, _, isComplete = GetQuestLogTitle(i)
+		local questHasBracket = string.match(questName, "%[")
+		
+		local isMatch
+		
+		-- Button: FooBar / Quest: FooBar
+		-- Button: [50] FooBar / Quest: [50] FooBar
+		if( textHasBracket == questHasBracket and buttonText == questName ) then
+			isMatch = true
+		
+		-- Button: FooBar / Quest: [50] FooBar
+		elseif( not textHasBracket and questHasBracket and string.match(questName, buttonText) ) then
+			isMatch = true
+		
+		-- Button: [50] FooBar / Quest: FooBar
+		elseif( textHasBracket and not questHasBracket and string.match(buttonText, questName) ) then
+			isMatch = true
+		end
+		
+		-- Matched, break and change texture
+		if( isMatch ) then
+			if( isComplete and isComplete > 0 ) then
+				SetDesaturation(texture, nil)
+				return
 			end
+			break
 		end
 	end
 		
@@ -49,7 +66,6 @@ local function updateQuestIcons()
 			else
 				SetDesaturation((button:GetRegions()), nil)
 			end
-			
 		end
 	end
 end
@@ -58,7 +74,7 @@ local frame = CreateFrame("Frame")
 frame:RegisterEvent("QUEST_GREETING")
 frame:RegisterEvent("GOSSIP_SHOW")
 frame:RegisterEvent("QUEST_LOG_UPDATE")
-frame:SetScript("OnEvent", function()
+frame:SetScript("OnEvent", function(self, event)
 	updateQuestIcons()
 	updateGossipIcons()
 end)
