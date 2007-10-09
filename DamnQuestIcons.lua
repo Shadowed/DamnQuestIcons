@@ -23,7 +23,7 @@ function checkQuestText(buttonText, texture)
 		
 		-- Matched, break and change texture
 		if( isMatch ) then
-			if( isComplete and isComplete > 0 ) then
+			if( ( isComplete and isComplete > 0 ) or GetNumQuestLeaderBoards(i) == 0 ) then
 				SetDesaturation(texture, nil)
 				return
 			end
