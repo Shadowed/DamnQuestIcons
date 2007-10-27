@@ -1,9 +1,19 @@
 function checkQuestText(buttonText, texture)
+	buttonText = string.trim(buttonText)
+	
 	local textHasBracket = string.match(buttonText, "%[")
-		
+	
+	if( not textHasBracket ) then
+		buttonText = string.gsub(buttonText, "%-", "%%-")
+	end
+	
 	for i=1, GetNumQuestLogEntries() do
 		local questName, _, _, _, _, _, isComplete = GetQuestLogTitle(i)
 		local questHasBracket = string.match(questName, "%[")
+
+		if( not questHasBracket ) then
+			questName = string.gsub(questName, "%-", "%%-")
+		end
 		
 		local isMatch
 		
