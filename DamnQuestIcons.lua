@@ -5,6 +5,8 @@ function checkQuestText(buttonText, texture)
 	
 	if( not textHasBracket ) then
 		buttonText = string.gsub(buttonText, "%-", "%%-")
+		buttonText = string.gsub(buttonText, "%(", "%%(")
+		buttonText = string.gsub(buttonText, "%)", "%%)")
 	end
 	
 	for i=1, GetNumQuestLogEntries() do
@@ -13,6 +15,8 @@ function checkQuestText(buttonText, texture)
 
 		if( not questHasBracket ) then
 			questName = string.gsub(questName, "%-", "%%-")
+			questName = string.gsub(questName, "%(", "%%(")
+			questName = string.gsub(questName, "%)", "%%)")
 		end
 		
 		local isMatch
