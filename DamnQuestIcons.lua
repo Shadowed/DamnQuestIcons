@@ -1,3 +1,34 @@
+-- Basically this makes sure we can go off the original text so other mods don't affect it
+local buttonIndex = 1
+local function setButtonText(...)
+	for i=1, select("#", ...), 3 do
+		getglobal("GossipTitleButton" .. buttonIndex).originalText = select(i, ...)
+		buttonIndex = buttonIndex + 1
+	end
+	
+	if( buttonIndex > 1 ) then
+		buttonIndex = buttonIndex + 1
+	end
+end
+
+local function setButtonOptionText(...)
+	for i=1, select("#", ...), 2 do
+		getglobal("GossipTitleButton" .. buttonIndex).originalText = select(i, ...)
+		buttonIndex = buttonIndex + 1
+	end
+	
+	if( buttonIndex > 1 ) then
+		buttonIndex = buttonIndex + 1
+	end
+end
+
+hooksecurefunc("GossipFrameAvailableQuestsUpdate", setButtonText)
+hooksecurefunc("GossipFrameActiveQuestsUpdate", setButtonText)
+hooksecurefunc("GossipFrameOptionsUpdate", setButtonOptionText)
+hooksecurefunc("GossipFrameUpdate", function()
+	buttonIndex = 1
+end)
+
 function checkQuestText(buttonText, texture)
 	buttonText = string.trim(buttonText)
 	
@@ -58,7 +89,7 @@ local function updateGossipIcons()
 					
 		if( button:IsVisible() ) then
 			if( button.type == "Active" ) then
-				checkQuestText(button:GetText(), getglobal(button:GetName() .. "GossipIcon"))
+				checkQuestText(button.originalText, getglobal(button:GetName() .. "GossipIcon"))
 			else
 				SetDesaturation(getglobal(button:GetName() .. "GossipIcon"), nil)
 			end
@@ -76,7 +107,7 @@ local function updateQuestIcons()
 		
 		if( button:IsVisible() ) then
 			if( button.isActive == 1 ) then
-				checkQuestText(button:GetText(), (button:GetRegions()))
+				checkQuestText(button.originalText, (button:GetRegions()))
 			else
 				SetDesaturation((button:GetRegions()), nil)
 			end
