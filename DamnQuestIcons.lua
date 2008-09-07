@@ -9,7 +9,7 @@ local function stripStupid(text)
 	-- Strip [<level crap>] <quest title>
 	text = string.gsub(text, "%[(.+)%]", "")
 	-- Strip color codes
-	text = string.gsub(text, "|cff000000(.+)|r", "%1")
+	text = string.gsub(text, "|c%x%x%x%x%x%x%x%x(.+)|r", "%1")
 	-- Strip (low level) at the end of a quest
 	text = string.gsub(text, "(.+) %((.+)%)", "%1")
 	
