@@ -2,10 +2,8 @@
 local function stripStupid(text)
 	if( not text ) then
 		return nil
-
 	end
 	
-
 	-- Strip [<level crap>] <quest title>
 	text = string.gsub(text, "%[(.+)%]", "")
 	-- Strip color codes

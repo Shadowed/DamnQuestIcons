@@ -1,4 +1,4 @@
-## Interface: 20300
+## Interface: 30100
 ## Title: Damn Quest Icons
 ## Notes: Grey's out the question mark icon next to quest names if it's not completed
 ## Author: Mayen
