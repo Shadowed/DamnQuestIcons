@@ -1,3 +1,5 @@
+local _G = getfenv(0)
+
 -- Tries to deal with incompatabilities that other mods cause
 local function stripStupid(text)
 	if( not text ) then
@@ -40,12 +42,12 @@ local function updateGossipIcons()
 	end
 	
 	for i=1, GossipFrame.buttonIndex do
-		local button = getglobal("GossipTitleButton" .. i)
+		local button = _G["GossipTitleButton" .. i]
 		if( button:IsVisible() ) then
 			if( button.type == "Active" ) then
-				checkQuestText(button:GetText(), getglobal(button:GetName() .. "GossipIcon"))
+				checkQuestText(button:GetText(), _G[button:GetName() .. "GossipIcon"])
 			else
-				SetDesaturation(getglobal(button:GetName() .. "GossipIcon"), nil)
+				SetDesaturation(_G[button:GetName() .. "GossipIcon"], nil)
 			end
 		end
 	end
@@ -57,7 +59,7 @@ local function updateQuestIcons()
 	end
 	
 	for i=1, (GetNumActiveQuests() + GetNumAvailableQuests()) do
-		local button = getglobal("QuestTitleButton" .. i)
+		local button = _G["QuestTitleButton" .. i]
 		if( button:IsVisible() ) then
 			if( button.isActive == 1 ) then
 				checkQuestText(button:GetText(), (button:GetRegions()))
